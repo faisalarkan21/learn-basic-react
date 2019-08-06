@@ -22,14 +22,9 @@ class AnotherComponent extends React.Component {
   }
 
   handleAddNumber = () => {
-    // this.props.handleUpdateNumber('Hai Bro!');
-
-    axios
-      .get(`https://jsonplaceholder.typicode.com`)
-      .then(({ data }) => data)
-      .catch(err => {
-        console.log("err", err);
-      });
+    this.setState({ number: this.state.number + 1 } , () => {
+      this.props.handleUpdateNumber(this.state.number)
+  });
 
   };
 
@@ -58,6 +53,13 @@ class AnotherComponent extends React.Component {
           type="danger"
         >
           Kurang
+        </Button>
+        <Button
+          onClick={this.handleMultiplyNumber}
+          className="coba"
+          type="danger"
+        >
+          multiply by 5
         </Button>
       </div>
     );

@@ -1,9 +1,6 @@
 import React from "react";
-import logo from "./logo.svg";
-import { version, Button } from "antd";
 import AnotherComponent from "./AnotherComponent";
 import "./App.css";
-import { from } from "rxjs";
 
 class App extends React.Component {
   constructor(props) {
@@ -14,8 +11,7 @@ class App extends React.Component {
   }
 
   handleUpdateNumber = (value) => {
-    // this.setState({ number: value });
-    alert(value);
+    this.setState({ number: value });
   }
 
   render() {
