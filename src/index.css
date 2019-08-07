@@ -13,12 +13,30 @@ code {
 }
 
 
-#components-form-demo-normal-login .login-form {
+.login-form {
   max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
 }
-#components-form-demo-normal-login .login-form-forgot {
+
+
+.regist-form {
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+.login-form-forgot {
   float: right;
 }
-#components-form-demo-normal-login .login-form-button {
+.login-form-button {
   width: 100%;
 }
+
+.invalid-feedback{
+    color: red;
+}
+
+

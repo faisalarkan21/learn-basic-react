@@ -11,23 +11,30 @@ class NormalLoginForm extends React.Component {
       <Formik
         initialValues={{ username: "", password: "" }}
         onSubmit={(values, { setSubmitting }) => {
+          console.log("values", values);
+          if (!values.username) {
+            alert("asasas");
+            return;
+          }
 
-            console.log('values', values);
-            if (!values.username){
-                alert('asasas');
-                return;
-            }
-
-            console.log('Kena eksekusi')
+          console.log("Kena eksekusi");
         }}
-        // validateForm={(values) => {
-        //     console.log('values', values);
-        // }}
+        validate={(values) => {
+          console.log("values222", values);
+          const errors = {};
+          if (!values.username) {
+            errors.username = 'Fill in login username';
+          }
+          if (!values.password) {
+            errors.password = 'Fill in login password';
+          }
+          return errors;
+        }}
       >
         {props => {
-            console.log('props', props)
+          console.log('props', props)
           const {
-            values: {username, password},
+            values: { username, password },
             touched,
             errors,
             dirty,
@@ -50,6 +57,9 @@ class NormalLoginForm extends React.Component {
                   }
                   placeholder="Username"
                 />
+                {(errors.username && touched.username) && (
+                  <div className="invalid-feedback">{errors.username}</div>
+                )}
               </Form.Item>
               <Form.Item>
                 <Input
@@ -63,6 +73,9 @@ class NormalLoginForm extends React.Component {
                   type="password"
                   placeholder="Password"
                 />
+                {(errors.password && touched.password) && (
+                  <div className="invalid-feedback">{errors.password}</div>
+                )}
               </Form.Item>
               <Form.Item>
                 <Checkbox>Remember me</Checkbox>
