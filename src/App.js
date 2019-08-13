@@ -1,6 +1,7 @@
 import React from "react";
 import AnotherComponent from "./AnotherComponent";
 import "./App.css";
+import { connect } from "react-redux";
 
 class App extends React.Component {
   constructor(props) {
@@ -25,10 +26,21 @@ class App extends React.Component {
             type="primary"
             buttonName="Tombol Self Distruction"
           />
+          <br></br>
+          <h4>Ini App Component</h4>
+          {this.props.countingAdd.data}
         </div>
       </div>
     );
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  console.log("state", state);
+  return {
+    countingAdd: state.countingAdd,
+    dataMin: state.countingMin
+  };
+}
+
+export default connect(mapStateToProps)(App);

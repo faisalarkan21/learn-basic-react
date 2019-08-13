@@ -1,8 +1,9 @@
 import React from "react";
 import { Button } from "antd";
 // const axios = require("axios");
-import axios from 'axios';
-
+import { connect } from "react-redux";
+import axios from "axios";
+import { addCounting, minCounting } from "./actions/counting";
 
 /**
  * @todo
@@ -18,30 +19,24 @@ class AnotherComponent extends React.Component {
       number: 0,
       multiply: 5
     };
-
   }
 
   handleAddNumber = () => {
-    this.setState({ number: this.state.number + 1 } , () => {
-      this.props.handleUpdateNumber(this.state.number)
-  });
-
+    this.props.dispatch(addCounting(this.props.countingAdd.data))
   };
 
   handleSubtractNumber = () => {
-    this.setState({ number: this.state.number - 1 } , () => {
-        this.props.handleUpdateNumber(this.state.number)
-    });
+    this.props.dispatch(minCounting(this.props.dataMin.data))
   };
 
   handleMultiplyNumber = () => {
     this.setState({ number: this.state.number * this.state.multiply }, () => {
-        this.props.handleUpdateNumber(this.state.number)
+      this.props.handleUpdateNumber(this.state.number);
     });
   };
 
   render() {
-    console.log("props another component", this.props);
+    console.log("props another component", this.props.countingAdd.data);
     return (
       <div>
         <Button onClick={this.handleAddNumber} className="coba" type="danger">
@@ -61,9 +56,21 @@ class AnotherComponent extends React.Component {
         >
           multiply by 5
         </Button>
+
+        {this.props.countingAdd.data}
+        <br></br>
+        {this.props.dataMin.data}
       </div>
     );
   }
 }
 
-export default AnotherComponent;
+function mapStateToProps(state) {
+  console.log("state", state);
+  return {
+    countingAdd: state.countingAdd,
+    dataMin: state.countingMin
+  };
+}
+
+export default connect(mapStateToProps)(AnotherComponent);

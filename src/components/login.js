@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Icon, Input, Button, Checkbox } from "antd";
+import { Link } from 'react-router-dom'
 import { Formik } from "formik";
 import "./login.css";
 
@@ -89,7 +90,7 @@ class NormalLoginForm extends React.Component {
                 >
                   Log in
                 </Button>
-                Or <a href="">register now!</a>
+                Or <Link to="register">register now!</Link>
               </Form.Item>
             </Form>
           );

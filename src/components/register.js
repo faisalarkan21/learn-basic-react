@@ -11,6 +11,7 @@ import {
   Select,
   Tooltip
 } from "antd";
+import MaskedInput from 'react-text-mask';
 import React from "react";
 import { Formik } from "formik";
 import "./register.css";
@@ -106,6 +107,12 @@ class RegistrationForm extends React.Component {
     console.log("value submit", value);
   }
 
+  onHandleCascaderChange(e, props){
+    console.log('props-cascader value', e)
+    console.log('props-cascader props', props)
+    props.setFieldValue('location', e)
+  }
+
   render() {
     const { autoCompleteResult } = this.state;
 
@@ -115,10 +122,13 @@ class RegistrationForm extends React.Component {
 
     return (
       <Formik
-        initialValues={{ email: "", password: "" }}
+        initialValues={{ email: "", password: "", passwordConfirm: '', nickname: '', location: '', phoneNumber: '', website: '', agreement : false, }}
         onSubmit={this.handleSubmitForm}
         validate={values => {
           console.log("values222", values);
+
+          var patt = new RegExp(/(https?:\/\/)?(www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)|(https?:\/\/)?(www\.)?(?!ww)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/);
+
           const errors = {};
           if (!values.email) {
             errors.email = "Fill in email";
@@ -139,13 +149,36 @@ class RegistrationForm extends React.Component {
           if (values.passwordConfirm !== values.password) {
             errors.passwordConfirm = "Tidak sama";
           }
+          if (!values.nickname) {
+            errors.nickname = "Fill in nickname";
+          }
+          if (!values.location) {
+            errors.location = "Fill in location";
+          }
+          if (!values.phoneNumber) {
+            errors.phoneNumber = "Fill in phone number";
+          }
+          if (!values.website) {
+            errors.website = "Fill in website";
+          } else if (!patt.test(values.website)){
+            errors.website = "Website url not valid";
+          }
+          
           return errors;
         }}
       >
         {props => {
-          console.log("props", props);
+          console.log("propstest", props);
           const {
-            values: { email, password, passwordConfirm },
+            values: { 
+              nickname,
+              website,
+              location,
+              phoneNumber,
+              email, 
+              password, 
+              passwordConfirm ,
+            },
             touched,
             errors,
             dirty,
@@ -153,8 +186,9 @@ class RegistrationForm extends React.Component {
             handleChange,
             handleBlur,
             handleSubmit,
-            handleReset
+            handleReset,
           } = props;
+        
           return (
             <Form className="regist-form" onSubmit={handleSubmit}>
               <Form.Item label="E-mail">
@@ -206,14 +240,33 @@ class RegistrationForm extends React.Component {
                   </span>
                 }
               >
-                <Input />
+                <Input 
+                    value={nickname}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    id="nickname"
+                />
+                {errors.nickname && touched.nickname && (
+                  <div className="invalid-feedback">{errors.nickname}</div>
+                )}
               </Form.Item>
               <Form.Item label="Habitual Residence">
                 {/* 
                 @TODO Validation
                 Is Required
               */}
-                <Cascader options={residences} />
+                <Cascader 
+                
+                options={residences} 
+                value={location}
+                onChange={(e) => this.onHandleCascaderChange(e, props)}
+                onBlur={handleBlur}
+                id="location"
+
+                />
+                 {errors.location && touched.location && (
+                  <div className="invalid-feedback">{errors.location}</div>
+                )}
               </Form.Item>
               <Form.Item label="Phone Number">
                 {/* 
@@ -221,7 +274,26 @@ class RegistrationForm extends React.Component {
                 1. Is Required
                 2. using library -> https://github.com/text-mask/text-mask
               */}
-                <Input style={{ width: "100%" }} />
+                {/* <Inpcaut 
+                  style={{ width: "100%" }} 
+                  value={phoneNumber}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  id="phoneNumber"
+
+                /> */}
+                <MaskedInput
+                  className="ant-input ant-cascader-input "
+                  mask={s => Array.from(s).map(() => /[0-9]/i)}
+                  value={phoneNumber}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  id="phoneNumber"
+                  guide={false}
+                />
+                {errors.phoneNumber && touched.phoneNumber && (
+                  <div className="invalid-feedback">{errors.phoneNumber}</div>
+                )}
               </Form.Item>
               <Form.Item label="Website">
                 {/* 
@@ -229,27 +301,31 @@ class RegistrationForm extends React.Component {
                 1. Is Required
                 2. using library -> https://github.com/text-mask/text-mask
               */}
-                <AutoComplete dataSource={websiteOptions} placeholder="website">
-                  <Input />
-                </AutoComplete>
+                {/* <AutoComplete dataSource={websiteOptions} placeholder="website"> */}
+                  <Input 
+                    value={website}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    id="website"
+                  />
+                  {errors.website && touched.website && (
+                  <div className="invalid-feedback">{errors.website}</div>
+                )}
+                {/* </AutoComplete> */}
               </Form.Item>
-              <Form.Item
+              {/* <Form.Item
                 label="Captcha"
                 extra="We must make sure that your are a human."
               >
                 <Row gutter={8}>
                   <Col span={12}>
-                    {/* 
-                        @TODO Validation
-                        1. Is Required
-                    */}
                     <Input />
                   </Col>
                   <Col span={12}>
                     <Button>Get captcha</Button>
                   </Col>
                 </Row>
-              </Form.Item>
+              </Form.Item> */}
               <Form.Item>
                 <Checkbox>
                   I have read the <a href="">agreement</a>
