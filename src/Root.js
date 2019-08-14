@@ -11,6 +11,7 @@ import AnotherComponent from "./App";
 import register from "./components/register";
 import { LayoutDashboard } from "./components/Layout";
 import configureStore from "./store/configStore";
+import searchPage from "./searchPage";
 
 const PrivateRoute = ({ component, isAuthenticated, ...rest }) => {
   console.log("rest", rest);
@@ -52,6 +53,7 @@ class Root extends React.Component {
         <Provider store={store}>
           <Router>
             <Switch>
+              <Route exact path="/search" component={searchPage} />
               <Route exact path="/login" component={App} />
               <Route exact path="/register" component={register} />
               <Route exact path="/another" component={AnotherComponent} />
