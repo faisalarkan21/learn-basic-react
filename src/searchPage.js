@@ -6,7 +6,7 @@ var Typeahead = require("react-typeahead").Typeahead;
 
 class SearchUsers extends React.Component {
   componentDidMount() {
-    this.props.dispatch(getUsersSearch());
+    // this.props.dispatch(getUsersSearch());
   }
 
   render() {

@@ -6,7 +6,9 @@
   "dependencies": {
     "antd": "^3.21.1",
     "axios": "^0.19.0",
+    "cookies-js": "^1.2.3",
     "formik": "^1.5.8",
+    "json-server": "^0.15.0",
     "react": "^16.8.6",
     "react-autosuggest": "^9.4.3",
     "react-dom": "^16.8.6",

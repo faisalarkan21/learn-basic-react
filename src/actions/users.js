@@ -9,19 +9,13 @@ export function fetchUsers(data) {
   };
 }
 
-export function getUsersSearch(query) {
+export function getUsersThunk() {
   return dispatch => {
-    return Axios.get("https://5d371ebf86300e0014b64ae7.mockapi.io/api/v1/users").then(
+    return Axios.get("http://20.20.20.156:3008/api/users").then(
       ({ data }) => {
-        console.log('data users', data)
-
-        let reWriteOnlyName = [];
-
-        data.map((v) => {
-          reWriteOnlyName.push(v.name)
-        })
-
-        dispatch(fetchUsers(reWriteOnlyName));
+        
+        
+        dispatch(fetchUsers(data));
       }
     );
   };

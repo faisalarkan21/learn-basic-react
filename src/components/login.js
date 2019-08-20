@@ -1,39 +1,50 @@
 import React from "react";
 import { Form, Icon, Input, Button, Checkbox } from "antd";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import { Formik } from "formik";
+import { withRouter } from "react-router-dom";
 import "./login.css";
+import { postLogin } from "../actions/auth";
 
 class NormalLoginForm extends React.Component {
-  handleSubmit = e => {};
+  componentWillReceiveProps(nextProps) {
+    const {
+      login: { data }
+    } = nextProps;
+
+    // console.lologing('nextProps', nextProps)
+
+    if (data.isValid) {
+      this.props.history.push("/");
+    } else {
+      alert("Salah password kak !");
+    }
+
+    // console.log('nextProps' , nextProps);
+  }
 
   render() {
     return (
       <Formik
         initialValues={{ username: "", password: "" }}
         onSubmit={(values, { setSubmitting }) => {
-          console.log("values", values);
-          if (!values.username) {
-            alert("asasas");
-            return;
-          }
-
-          console.log("Kena eksekusi");
+          this.props.dispatch(postLogin(values));
         }}
-        validate={(values) => {
+        validate={values => {
           console.log("values222", values);
           const errors = {};
           if (!values.username) {
-            errors.username = 'Fill in login username';
+            errors.username = "Fill in login username";
           }
           if (!values.password) {
-            errors.password = 'Fill in login password';
+            errors.password = "Fill in login password";
           }
           return errors;
         }}
       >
         {props => {
-          console.log('props', props)
+          console.log("props", props);
           const {
             values: { username, password },
             touched,
@@ -58,7 +69,7 @@ class NormalLoginForm extends React.Component {
                   }
                   placeholder="Username"
                 />
-                {(errors.username && touched.username) && (
+                {errors.username && touched.username && (
                   <div className="invalid-feedback">{errors.username}</div>
                 )}
               </Form.Item>
@@ -74,7 +85,7 @@ class NormalLoginForm extends React.Component {
                   type="password"
                   placeholder="Password"
                 />
-                {(errors.password && touched.password) && (
+                {errors.password && touched.password && (
                   <div className="invalid-feedback">{errors.password}</div>
                 )}
               </Form.Item>
@@ -100,4 +111,12 @@ class NormalLoginForm extends React.Component {
   }
 }
 
-export default NormalLoginForm;
+function mapStateToProps(state) {
+  console.log("state", state);
+  return {
+    countingAdd: state.countingAdd,
+    login: state.loginUser
+  };
+}
+
+export default withRouter(connect(mapStateToProps)(NormalLoginForm));
