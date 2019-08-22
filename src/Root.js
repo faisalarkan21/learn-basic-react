@@ -14,6 +14,7 @@ import register from "./components/register";
 import LayoutDashboard from "./components/Layout";
 import configureStore from "./store/configStore";
 import searchPage from "./searchPage";
+import ListUsers  from "./components/list-users";
 
 const PrivateRoute = ({ component, isAuthenticated, ...rest }) => {
   
@@ -48,6 +49,9 @@ const PrivateRoute = ({ component, isAuthenticated, ...rest }) => {
 //   document.getElementById("root")
 // );
 
+// faisal@stockbit.com
+// test123
+
 const store = configureStore();
 
 class Root extends React.Component {
@@ -61,8 +65,9 @@ class Root extends React.Component {
               <Route exact path="/login" component={App} />
               <Route exact path="/register" component={register} />
               <Route exact path="/another" component={AnotherComponent} />
-              <PrivateRoute path="/" component={LayoutDashboard} />
-              <PrivateRoute path="/coba" component={LayoutDashboard} />
+              <PrivateRoute exact path="/" component={LayoutDashboard} />
+                <PrivateRoute path="/coba" component={LayoutDashboard} />
+                <PrivateRoute path="/list-users" component={ListUsers} />
             </Switch>
           </Router>
         </Provider>
