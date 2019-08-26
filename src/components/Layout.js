@@ -22,11 +22,11 @@ class LayoutDashboard extends React.Component {
       <div>
         <h1>Selamat datang di dashboard</h1>
         <ul>
-          {dataUsers.map((v) => {
+          {/* {dataUsers.map((v) => {
             return (
               <li>{v.name}</li>
             )
-          })}
+          })} */}
         </ul>
       </div>
     );

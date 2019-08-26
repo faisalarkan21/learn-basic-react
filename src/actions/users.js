@@ -1,4 +1,5 @@
 import Axios from "axios";
+import { toast } from "react-toastify";
 
 export const FETCH_USERS = "FETCH_USERS";
 
@@ -24,17 +25,23 @@ export function getUsersThunk() {
 
 
 
-export function postUsersThunk() {
+export function postUsersThunk(data) {
   return dispatch => {
-    return Axios.post("http://20.20.20.156:3008/api/users",).then(data => {
-      // console.log('data-hasil-fetch1', data.data.data);
-      const {
-        data: { data: dataUsers }
-      } = data;
-      console.log("data-hasil-fetch2", dataUsers);
+    return Axios.post("http://20.20.20.156:3008/api/add-user", data ).then(data => {
+    dispatch(getUsersThunk())
+    toast.success('Data Berhasil Disimpan!')
+    }).catch((err) => {
+      toast.error(JSON.stringify(err.message))
+    })}
+}
 
-      
-      dispatch(getUsersThunk(dataUsers));
-    });
-  };
+
+export function updateUsersThunk(data) {
+  return dispatch => {
+    return Axios.post("http://20.20.20.156:3008/api/update-user", data ).then(data => {
+    dispatch(getUsersThunk())
+    toast.success('Data Berhasil Disimpan!')
+    }).catch((err) => {
+      toast.error(JSON.stringify(err.message))
+    })}
 }
