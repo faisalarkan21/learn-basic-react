@@ -14,7 +14,7 @@ export function loginOnRequest(data) {
 export function postLogin(data) {
     return (dispatch) => {
       //   console.log('data', data)
-      axios.post('http://20.20.20.156:3008/api/login', {email: data.username, password: data.password}).then(({data}) => {
+      axios.post('http://3.15.171.122:3008/api/add-user', {email: data.username, password: data.password}).then(({data}) => {
           console.log('res', data);
 
           Cookies.set('token', data.token);

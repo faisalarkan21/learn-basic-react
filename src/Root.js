@@ -15,6 +15,7 @@ import LayoutDashboard from "./components/Layout";
 import configureStore from "./store/configStore";
 import searchPage from "./searchPage";
 import ListUsers  from "./components/list-users";
+import DetailUser from "./components/detail-user";
 
 const PrivateRoute = ({ component, isAuthenticated, ...rest }) => {
   
@@ -68,6 +69,7 @@ class Root extends React.Component {
               <PrivateRoute exact path="/" component={LayoutDashboard} />
                 <PrivateRoute path="/coba" component={LayoutDashboard} />
                 <PrivateRoute path="/list-users" component={ListUsers} />
+                <PrivateRoute path="/detail-user" component={DetailUser} />
             </Switch>
           </Router>
         </Provider>

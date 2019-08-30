@@ -12,7 +12,7 @@ export function fetchUsers(data) {
 
 export function getUsersThunk() {
   return dispatch => {
-    return Axios.get("http://20.20.20.156:3008/api/users").then(data => {
+    return Axios.get("http://3.15.171.122:3008/api/users").then(data => {
       // console.log('data-hasil-fetch1', data.data.data);
       const {
         data: { data: dataUsers }
@@ -27,7 +27,7 @@ export function getUsersThunk() {
 
 export function postUsersThunk(data) {
   return dispatch => {
-    return Axios.post("http://20.20.20.156:3008/api/add-user", data ).then(data => {
+    return Axios.post("http://3.15.171.122:3008/api/add-user", data ).then(data => {
     dispatch(getUsersThunk())
     toast.success('Data Berhasil Disimpan!')
     }).catch((err) => {

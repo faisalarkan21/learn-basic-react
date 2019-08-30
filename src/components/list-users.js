@@ -8,9 +8,9 @@ import {
   postUsersThunk,
   updateUsersThunk
 } from "../actions/users";
-import { Button, Modal, Input } from "antd";
+import { Button, Modal, Input, Icon } from "antd";
 import { ToastContainer, toast } from "react-toastify";
-import { ShowConfirm } from "./lib/comfirm-modal";
+import { ShowConfirm, ButtonDelete, ModalDelete } from "./lib/comfirm-modal";
 
 const users = [{ name: "Faisal", email: "faisalarkan21@gmail.com" }];
 
@@ -18,6 +18,8 @@ class ListUsers extends React.Component {
   state = {
     addUser: false,
     editUser: false,
+    modalDelete: false,
+    data: "",
     email: "",
     password: "",
     name: "",
@@ -32,11 +34,12 @@ class ListUsers extends React.Component {
    */
 
   // { [id]: !this.state[id] });
-  handleOpenModal = id => {
+  handleOpenModal = (id, data) => {
     console.log(id);
     this.setState(prevState => {
       return {
-        [id]: !this.state[id]
+        [id]: !this.state[id],
+        data: data
       };
     });
   };
@@ -98,23 +101,56 @@ class ListUsers extends React.Component {
     );
   };
 
-  handleDelete = () => {
+  handleDeleteOk = id => {
+    console.log("data", this.state.data.id);
+
+    // this.props.dispatch(postDeleteThunk({id: this.state.data.id}))
+    // console.log("id", id);
+  };
+
+  handleDelete = row => {
     return (
       <div>
-        <Button onClick={ShowConfirm} color="primary">
+        {/* <ModalDelete data={row} handleOk={this.handleOk} visible={this.state.modalDelete}  /> */}
+        <Button
+          onClick={() => this.handleOpenModal("modalDelete", row)}
+          color="primary"
+        >
           Delete
         </Button>
       </div>
     );
+  };
+
+  handlePushDetail = (id) =>{
+
+    console.log('this.props', this.props)
+    this.props.history.push({
+      pathname: '/detail-user',
+      search: `?id=${id}`
+    });
   }
 
- 
-  
+  handleDetail = ({ id }) => {
+    return (
+      <Button onClick={() => this.handlePushDetail(id)} color="primary">
+        Detail
+      </Button>
+    );
+  };
 
   render() {
-    console.log("this.state", this.state);
+    console.log("this.props", this.props.Users);
     return (
       <div>
+        <ModalDelete
+          handleOk={this.handleDeleteOk}
+          handleCancel={() => this.handleOpenModal("modalDelete")}
+          visible={this.state.modalDelete}
+        >
+          {" "}
+          Apakah anda ingin menghapus user tersebut ?{" "}
+        </ModalDelete>
         <ToastContainer />
         <Modal
           visible={this.state.addUser || this.state.editUser}
@@ -170,6 +206,10 @@ class ListUsers extends React.Component {
           Tambah User
         </Button>
         <div style={{ width: 400 }}>
+          {this.props.Users.data.length <= 0 && (
+            <Icon type="loading" style={{ fontSize: 50 }} spin />
+          )}
+
           <BootstrapTable data={this.props.Users.data}>
             <TableHeaderColumn dataField="name" isKey>
               Name
@@ -178,8 +218,15 @@ class ListUsers extends React.Component {
             <TableHeaderColumn dataFormat={(cell, row) => this.handleEdit(row)}>
               Edit
             </TableHeaderColumn>
-            <TableHeaderColumn dataFormat={(cell, row) => this.handleDelete(row)}>
+            <TableHeaderColumn
+              dataFormat={(cell, row) => this.handleDelete(row)}
+            >
               Delete
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataFormat={(cell, row) => this.handleDetail(row)}
+            >
+              Detail
             </TableHeaderColumn>
           </BootstrapTable>
         </div>

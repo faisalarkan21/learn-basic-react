@@ -11,7 +11,10 @@ class NormalLoginForm extends React.Component {
   componentWillReceiveProps(nextProps) {
     const {
       login: { data }
+      
     } = nextProps;
+
+    
 
     // console.lologing('nextProps', nextProps)
 
