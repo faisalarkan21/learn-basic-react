@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'cookies-js';
+import { postResponse } from '../util/api';
 
 export const LOGIN_SUBMIT = 'LOGIN_SUBMIT';
 
@@ -14,7 +15,7 @@ export function loginOnRequest(data) {
 export function postLogin(data) {
     return (dispatch) => {
       //   console.log('data', data)
-      axios.post('http://3.15.171.122:3008/api/add-user', {email: data.username, password: data.password}).then(({data}) => {
+      postResponse('/add-user', {email: data.username, password: data.password}).then(({data}) => {
           console.log('res', data);
 
           Cookies.set('token', data.token);
